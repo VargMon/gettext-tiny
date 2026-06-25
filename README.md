@@ -1,29 +1,13 @@
-# Intro
-GetText-Tiny provides lightweight replacements for tools typically used
-from the `GNU gettext` suite, which is incredibly bloated and takes
-a lot of time to build (in the order of an hour on slow devices).
-the most notable component is `msgfmt` which is used to create binary
-translation files in the `.mo` format out of textual input files in
-`.po` format. this is the most important tool for building software from
-source, because it is used from the build processes of many software packages.
+# Introduction
+GetText-Tiny provides lightweight replacements for tools typically used from the `GNU gettext` suite, which is incredibly bloated and takes a lot of time to build (in the order of an hour on slow devices).
 
-Our `msgfmt` implementation was initially a fake implementation that would
-just output the english input string as the translation, which is sufficient
-to get software to work, but it has since grown into a complete implementation.
-unlike the GNU implementation, it can even expand input strings containing
-so-called `sysdep` strings into a constant translation table.
-`sysdep` strings were glued as an after-thought onto the GNU implementation to
-deal with system-specific format strings, and in the GNU implementation those
-are created at runtime, which requires mapping the entire `.mo` file into
-read/write memory locations, thereby wasting precious RAM for read-only data
-that could otherwise be shared among processes.
+The most notable component is `msgfmt` which is used to create binary translation files in the `.mo` format out of textual input files in `.po` format. This is the most important tool for building software from source, because it is used from the build processes of many software packages.
 
-Other parts of gettext-tiny such as `xgettext` and `msgmerge` are still stubs,
-but they are sufficient to build many packages.
+Our `msgfmt` implementation was initially a fake implementation that would just output the english input string as the translation, which is sufficient to get software to work, but it has since grown into a complete implementation. Unlike  the GNU implementation, it can even expand input strings containing so-called `sysdep` strings into a constant translation table. The `sysdep` strings were glued as an after-thought onto the GNU implementation to deal with system-specific format strings, and in the GNU implementation those are created at runtime, which requires mapping the entire `.mo` file into read/write memory locations, thereby wasting precious RAM for read-only data that could otherwise be shared among processes.
 
-Since `musl` libc, our preferred target, didn't provide a `libintl` in the past,
-(and it's also part of `GNU gettext`) we also ship a no-op libintl providing
-a header and a library.
+Other parts of GetText-Tiny such as `xgettext` and `msgmerge` are still stubs, but they are sufficient to build many packages.
+
+Since `musl` libc, our preferred target, didn't provide a `libintl` in the past, (and it's also part of `GNU gettext`) we also ship a no-op libintl providing a header and a library.
 
 It comes in two flavours:
 
@@ -42,7 +26,4 @@ make LIBINTL=FLAVOR
 make LIBINTL=FLAVOR DESTDIR=pkgdir prefix=/ install
 ```
 
-Where FLAVOR can be one of NONE, MUSL, NOOP (as detailed above).
-you can override any variables used in the Makefile (such as `CFLAGS`) by
-appending them to the `make` invocation, or by saving them into a file called
-`config.mak` before running `make`.
+Where FLAVOR can be one of NONE, MUSL, NOOP (as detailed above). You can override any variables used in the Makefile (such as `CFLAGS`) by appending them to the `make` invocation, or by saving them into a file called `config.mak` before running `make`.
